@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     const loginForm = document.getElementById('login-form');
+    const mainSection = document.querySelector('.main-section');
     const bookingSection = document.querySelector('.booking-section');
 
     loginForm.addEventListener('submit', function(event) {
@@ -12,7 +13,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function showMainPage() {
         document.querySelector('.login-section').style.display = 'none';
-        bookingSection.style.display = 'block';
+        mainSection.classList.add('show');
+        bookingSection.classList.add('show');
     }
 
     document.getElementById('booking-form').addEventListener('submit', function(event) {
