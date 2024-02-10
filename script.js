@@ -24,6 +24,8 @@ function login() {
         }
         if (found) {
             showPage("bookingPage");
+            // Populate classroom dropdown
+            updateClassroomDropdown();
         } else {
             document.getElementById("loginMessage").innerText = "Invalid username or password";
         }
@@ -36,25 +38,29 @@ document.getElementById("bookingForm").addEventListener("submit", function(event
     let name = document.getElementById("name").value;
     let classroom = document.getElementById("classroom").value;
     let date = document.getElementById("date").value;
-    let time = document.getElementById("time").value;
+    let startTime = document.getElementById("startTime").value;
+    let endTime = document.getElementById("endTime").value;
 
     // Check if the slot is available
-    if (!isSlotAvailable(classroom, date, time)) {
+    if (!isSlotAvailable(classroom, date, startTime, endTime)) {
         document.getElementById("bookingMessage").innerText = "Sorry, this slot is already booked.";
         return;
     }
 
     // Add the booking
-    bookedSlots.push({name: name, classroom: classroom, date: date, time: time});
+    bookedSlots.push({name: name, classroom: classroom, date: date, startTime: startTime, endTime: endTime});
     document.getElementById("bookingMessage").innerText = "Booking successful!";
     updateMyBookings();
 });
 
 // Function to check if a slot is available
-function isSlotAvailable(classroom, date, time) {
+function isSlotAvailable(classroom, date, startTime, endTime) {
     for (let i = 0; i < bookedSlots.length; i++) {
-        if (bookedSlots[i].classroom === classroom && bookedSlots[i].date === date && bookedSlots[i].time === time) {
-            return false;
+        if (bookedSlots[i].classroom === classroom && bookedSlots[i].date === date) {
+            // Check for overlapping time
+            if (!(endTime <= bookedSlots[i].startTime || startTime >= bookedSlots[i].endTime)) {
+                return false;
+            }
         }
     }
     return true;
@@ -67,7 +73,7 @@ function updateMyBookings() {
     bookedSlots.forEach(function(booking) {
         if (booking.name === "admin") { // Assuming "admin" is the user's username after login
             let listItem = document.createElement("li");
-            listItem.innerText = `${booking.date} at ${booking.time}: ${booking.classroom}`;
+            listItem.innerText = `${booking.date} from ${booking.startTime} to ${booking.endTime}: ${booking.classroom}`;
             myBookingsList.appendChild(listItem);
         }
     });
@@ -77,21 +83,19 @@ function updateMyBookings() {
 document.getElementById("myBookingsLink").addEventListener("click", function(event) {
     event.preventDefault();
     showPage("myBookingsPage");
+    updateMyBookings();
 });
 
 document.getElementById("bookClassroomLink").addEventListener("click", function(event) {
     event.preventDefault();
     showPage("bookingPage");
-});
-
-document.getElementById("addRoomButton").addEventListener("click", function(event) {
-    event.preventDefault();
-    addClassroom();
+    updateClassroomDropdown();
 });
 
 document.getElementById("allBookedClassroomsLink").addEventListener("click", function(event) {
     event.preventDefault();
     showPage("allBookedClassroomsPage");
+    updateAllBookedClassrooms();
 });
 
 // Function to show a specific page and hide others
@@ -103,29 +107,25 @@ function showPage(pageId) {
 
     document.getElementById(pageId).style.display = "block";
 
-    if (pageId === "myBookingsPage") {
-        updateMyBookings();
-    } else if (pageId === "allBookedClassroomsPage") {
+    if (pageId === "allBookedClassroomsPage") {
         updateAllBookedClassrooms();
     }
 }
 
 // Function to update "All Booked Classrooms" page
 function updateAllBookedClassrooms() {
+    let startTimeFilter = document.getElementById("startTimeFilter").value;
+    let endTimeFilter = document.getElementById("endTimeFilter").value;
+
     let allBookedClassroomsList = document.getElementById("allBookedClassroomsList");
     allBookedClassroomsList.innerHTML = "";
-    let bookedClassrooms = {};
     bookedSlots.forEach(function(booking) {
-        if (!bookedClassrooms[booking.classroom]) {
-            bookedClassrooms[booking.classroom] = [];
+        if (booking.startTime >= startTimeFilter && booking.endTime <= endTimeFilter) {
+            let listItem = document.createElement("li");
+            listItem.innerText = `${booking.date} from ${booking.startTime} to ${booking.endTime}: ${booking.classroom} (Booked by ${booking.name})`;
+            allBookedClassroomsList.appendChild(listItem);
         }
-        bookedClassrooms[booking.classroom].push(`${booking.date} at ${booking.time}`);
     });
-    for (let classroom in bookedClassrooms) {
-        let listItem = document.createElement("li");
-        listItem.innerText = `${classroom}: ${bookedClassrooms[classroom].join(", ")}`;
-        allBookedClassroomsList.appendChild(listItem);
-    }
 }
 
 // Function to add classroom
