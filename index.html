@@ -7,6 +7,19 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#" id="myBookingsLink">My Bookings</a></li>
+                <li><a href="#" id="bookClassroomLink">Book Classroom</a></li>
+                <li><a href="#" id="allBookedClassroomsLink">All Booked Classrooms</a></li>
+                <li><input type="text" id="searchBar" placeholder="Search Bookings"></li>
+                <li><button id="addRoomButton">Add Classroom</button></li>
+                <li><button id="removeRoomButton">Remove Classroom</button></li>
+            </ul>
+        </nav>
+    </header>
+
     <div id="loginPage">
         <h2>Login</h2>
         <input type="text" id="username" placeholder="Username">
@@ -16,8 +29,25 @@
     </div>
 
     <div id="bookingPage" style="display: none;">
-        <h2>Classroom Booking System</h2>
-        <!-- Booking interface content goes here -->
+        <h2>Classroom Booking Form</h2>
+        <form id="bookingForm">
+            <input type="text" id="name" placeholder="Your Name" required>
+            <input type="text" id="classroom" placeholder="Classroom" required>
+            <input type="date" id="date" required>
+            <input type="time" id="time" required>
+            <button type="submit">Book Classroom</button>
+        </form>
+        <p id="bookingMessage"></p>
+    </div>
+
+    <div id="myBookingsPage" style="display: none;">
+        <h2>My Bookings</h2>
+        <!-- My bookings content goes here -->
+    </div>
+
+    <div id="allBookedClassroomsPage" style="display: none;">
+        <h2>All Booked Classrooms</h2>
+        <!-- All booked classrooms content goes here -->
     </div>
 
     <script src="script.js"></script>
