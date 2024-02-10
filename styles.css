@@ -1,0 +1,30 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+#login-container, #main-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+#login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#login-form, #classroom-form {
+    margin-bottom: 20px;
+}
+
+#classroom-management {
+    margin-top: 50px;
+    border-top: 1px solid #ccc;
+    padding-top: 20px;
+}
+
+/* Add more styling as needed */
