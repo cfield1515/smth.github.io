@@ -7,58 +7,18 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <section class="login-section">
-        <div class="container">
-            <h2>Login</h2>
-            <form id="login-form">
-                <div class="form-group">
-                    <label for="username">Username:</label>
-                    <input type="text" id="username" name="username" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">Password:</label>
-                    <input type="password" id="password" name="password" required>
-                </div>
-                <button type="submit" class="btn btn-login">Login</button>
-            </form>
-        </div>
-    </section>
+    <div id="loginPage">
+        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="login()">Login</button>
+        <p id="loginMessage"></p>
+    </div>
 
-    <section class="main-section" style="display: none;">
-        <header class="header">
-            <div class="container">
-                <h1>Classroom Booking System</h1>
-            </div>
-        </header>
-
-        <div class="container">
-            <section class="booking-section">
-                <h2>Book a Classroom</h2>
-                <form id="booking-form">
-                    <!-- Booking form content -->
-                </form>
-            </section>
-
-            <section class="booked-rooms">
-                <h2>Booked Rooms</h2>
-                <ul id="booked-list"></ul>
-            </section>
-
-            <section class="classroom-management">
-                <h2>Classroom Management</h2>
-                <form id="classroom-form">
-                    <!-- Classroom management form content -->
-                </form>
-                <ul id="classroom-list"></ul>
-            </section>
-        </div>
-
-        <footer class="footer">
-            <div class="container">
-                <p>&copy; 2024 Classroom Booking System. All rights reserved.</p>
-            </div>
-        </footer>
-    </section>
+    <div id="bookingPage" style="display: none;">
+        <h2>Classroom Booking System</h2>
+        <!-- Booking interface content goes here -->
+    </div>
 
     <script src="script.js"></script>
 </body>
