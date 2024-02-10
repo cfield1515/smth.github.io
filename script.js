@@ -6,7 +6,16 @@ let bookedSlots = [];
 
 // Function to handle login
 function login() {
-    // Your login logic here
+    let username = document.getElementById("username").value;
+    let password = document.getElementById("password").value;
+
+    // Here you would validate the login credentials (e.g., against a database)
+    // For simplicity, let's check against hardcoded credentials
+    if (username === "admin" && password === "password") {
+        showPage("bookingPage");
+    } else {
+        document.getElementById("loginMessage").innerText = "Invalid username or password";
+    }
 }
 
 // Function to handle form submission
@@ -26,6 +35,7 @@ document.getElementById("bookingForm").addEventListener("submit", function(event
     // Add the booking
     bookedSlots.push({name: name, classroom: classroom, date: date, time: time});
     document.getElementById("bookingMessage").innerText = "Booking successful!";
+    updateMyBookings();
 });
 
 // Function to check if a slot is available
@@ -36,6 +46,19 @@ function isSlotAvailable(classroom, date, time) {
         }
     }
     return true;
+}
+
+// Function to update "My Bookings" page
+function updateMyBookings() {
+    let myBookingsList = document.getElementById("myBookingsList");
+    myBookingsList.innerHTML = "";
+    bookedSlots.forEach(function(booking) {
+        if (booking.name === "admin") { // Assuming "admin" is the user's username after login
+            let listItem = document.createElement("li");
+            listItem.innerText = `${booking.date} at ${booking.time}: ${booking.classroom}`;
+            myBookingsList.appendChild(listItem);
+        }
+    });
 }
 
 // Functions to handle navigation
@@ -62,4 +85,28 @@ function showPage(pageId) {
     document.getElementById("allBookedClassroomsPage").style.display = "none";
 
     document.getElementById(pageId).style.display = "block";
+
+    if (pageId === "myBookingsPage") {
+        updateMyBookings();
+    } else if (pageId === "allBookedClassroomsPage") {
+        updateAllBookedClassrooms();
+    }
+}
+
+// Function to update "All Booked Classrooms" page
+function updateAllBookedClassrooms() {
+    let allBookedClassroomsList = document.getElementById("allBookedClassroomsList");
+    allBookedClassroomsList.innerHTML = "";
+    let bookedClassrooms = {};
+    bookedSlots.forEach(function(booking) {
+        if (!bookedClassrooms[booking.classroom]) {
+            bookedClassrooms[booking.classroom] = [];
+        }
+        bookedClassrooms[booking.classroom].push(`${booking.date} at ${booking.time}`);
+    });
+    for (let classroom in bookedClassrooms) {
+        let listItem = document.createElement("li");
+        listItem.innerText = `${classroom}: ${bookedClassrooms[classroom].join(", ")}`;
+        allBookedClassroomsList.appendChild(listItem);
+    }
 }
