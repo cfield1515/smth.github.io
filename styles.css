@@ -67,15 +67,18 @@ body {
     background-color: #0056b3;
 }
 
-.booking-section.hide {
+.booking-section,
+.booked-rooms,
+.classroom-management,
+.footer {
     display: none;
 }
 
+.booking-section.show,
 .booked-rooms,
-.classroom-management {
-    margin-top: 30px;
-    border-top: 1px solid #ccc;
-    padding-top: 30px;
+.classroom-management,
+.footer {
+    display: block;
 }
 
 .booked-rooms h2,
