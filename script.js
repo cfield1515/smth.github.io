@@ -6,16 +6,28 @@ let bookedSlots = [];
 
 // Function to handle login
 function login() {
-    let username = document.getElementById("username").value;
-    let password = document.getElementById("password").value;
+    let username = document.getElementById("username").value.trim(); // Trim whitespace
+    let password = document.getElementById("password").value.trim(); // Trim whitespace
 
-    // Here you would validate the login credentials (e.g., against a database)
-    // For simplicity, let's check against hardcoded credentials
-    if (username === "admin" && password === "password") {
-        showPage("bookingPage");
-    } else {
-        document.getElementById("loginMessage").innerText = "Invalid username or password";
-    }
+    // Fetch credentials from a text file (Assuming credentials.txt contains username:password pairs)
+    fetch('credentials.txt')
+    .then(response => response.text())
+    .then(data => {
+        var lines = data.split('\n');
+        var found = false;
+        for (var i = 0; i < lines.length; i++) {
+            var pair = lines[i].split(':');
+            if (pair[0].trim() === username && pair[1].trim() === password) { // Trim whitespace
+                found = true;
+                break;
+            }
+        }
+        if (found) {
+            showPage("bookingPage");
+        } else {
+            document.getElementById("loginMessage").innerText = "Invalid username or password";
+        }
+    });
 }
 
 // Function to handle form submission
@@ -72,6 +84,11 @@ document.getElementById("bookClassroomLink").addEventListener("click", function(
     showPage("bookingPage");
 });
 
+document.getElementById("addRoomButton").addEventListener("click", function(event) {
+    event.preventDefault();
+    addClassroom();
+});
+
 document.getElementById("allBookedClassroomsLink").addEventListener("click", function(event) {
     event.preventDefault();
     showPage("allBookedClassroomsPage");
@@ -110,3 +127,26 @@ function updateAllBookedClassrooms() {
         allBookedClassroomsList.appendChild(listItem);
     }
 }
+
+// Function to add classroom
+function addClassroom() {
+    let classroom = prompt("Enter the name of the classroom:");
+    if (classroom) {
+        availableClassrooms.push(classroom);
+        updateClassroomDropdown();
+    }
+}
+
+// Function to update classroom dropdown
+function updateClassroomDropdown() {
+    let classroomDropdown = document.getElementById("classroom");
+    classroomDropdown.innerHTML = "";
+    availableClassrooms.forEach(function(classroom) {
+        let option = document.createElement("option");
+        option.text = classroom;
+        classroomDropdown.add(option);
+    });
+}
+
+// Initialize the classroom dropdown
+updateClassroomDropdown();
