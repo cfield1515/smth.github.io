@@ -1,26 +1,65 @@
-// Function to check login credentials
-function login() {
-    var username = document.getElementById("username").value;
-    var password = document.getElementById("password").value;
+// Define available classrooms (you can load this from a file or a database)
+let availableClassrooms = ["Room 101", "Room 102", "Room 103"];
 
-    // Fetch credentials from a text file (Assuming credentials.txt contains username:password pairs)
-    fetch('credentials.txt')
-    .then(response => response.text())
-    .then(data => {
-        var lines = data.split('\n');
-        var found = false;
-        for (var i = 0; i < lines.length; i++) {
-            var pair = lines[i].split(':');
-            if (pair[0].trim() === username && pair[1].trim() === password) {
-                found = true;
-                break;
-            }
+// Define booked slots
+let bookedSlots = [];
+
+// Function to handle login
+function login() {
+    // Your login logic here
+}
+
+// Function to handle form submission
+document.getElementById("bookingForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+    let name = document.getElementById("name").value;
+    let classroom = document.getElementById("classroom").value;
+    let date = document.getElementById("date").value;
+    let time = document.getElementById("time").value;
+
+    // Check if the slot is available
+    if (!isSlotAvailable(classroom, date, time)) {
+        document.getElementById("bookingMessage").innerText = "Sorry, this slot is already booked.";
+        return;
+    }
+
+    // Add the booking
+    bookedSlots.push({name: name, classroom: classroom, date: date, time: time});
+    document.getElementById("bookingMessage").innerText = "Booking successful!";
+});
+
+// Function to check if a slot is available
+function isSlotAvailable(classroom, date, time) {
+    for (let i = 0; i < bookedSlots.length; i++) {
+        if (bookedSlots[i].classroom === classroom && bookedSlots[i].date === date && bookedSlots[i].time === time) {
+            return false;
         }
-        if (found) {
-            document.getElementById("loginPage").style.display = "none";
-            document.getElementById("bookingPage").style.display = "block";
-        } else {
-            document.getElementById("loginMessage").innerText = "Invalid username or password";
-        }
-    });
+    }
+    return true;
+}
+
+// Functions to handle navigation
+document.getElementById("myBookingsLink").addEventListener("click", function(event) {
+    event.preventDefault();
+    showPage("myBookingsPage");
+});
+
+document.getElementById("bookClassroomLink").addEventListener("click", function(event) {
+    event.preventDefault();
+    showPage("bookingPage");
+});
+
+document.getElementById("allBookedClassroomsLink").addEventListener("click", function(event) {
+    event.preventDefault();
+    showPage("allBookedClassroomsPage");
+});
+
+// Function to show a specific page and hide others
+function showPage(pageId) {
+    document.getElementById("loginPage").style.display = "none";
+    document.getElementById("bookingPage").style.display = "none";
+    document.getElementById("myBookingsPage").style.display = "none";
+    document.getElementById("allBookedClassroomsPage").style.display = "none";
+
+    document.getElementById(pageId).style.display = "block";
 }
