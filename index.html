@@ -8,19 +8,10 @@
 </head>
 <body>
     <header>
-        <nav>
-            <ul>
-                <li><a href="#" id="myBookingsLink">My Bookings</a></li>
-                <li><a href="#" id="bookClassroomLink">Book Classroom</a></li>
-                <li><a href="#" id="allBookedClassroomsLink">All Booked Classrooms</a></li>
-                <li><input type="text" id="searchBar" placeholder="Search Bookings"></li>
-                <li><button id="addRoomButton">Add Classroom</button></li>
-                <li><button id="removeRoomButton">Remove Classroom</button></li>
-            </ul>
-        </nav>
+        <h1>Classroom Booking System</h1>
     </header>
 
-    <div id="loginPage">
+    <div id="loginPage" class="center">
         <h2>Login</h2>
         <input type="text" id="username" placeholder="Username">
         <input type="password" id="password" placeholder="Password">
@@ -28,26 +19,26 @@
         <p id="loginMessage"></p>
     </div>
 
-    <div id="bookingPage" style="display: none;">
+    <div id="bookingPage" class="center" style="display: none;">
         <h2>Classroom Booking Form</h2>
         <form id="bookingForm">
             <input type="text" id="name" placeholder="Your Name" required>
             <input type="text" id="classroom" placeholder="Classroom" required>
-            <input type="date" id="date" required>
-            <input type="time" id="time" required>
+            <input type="date" id="date" placeholder="Enter Date" required>
+            <input type="time" id="time" placeholder="Enter Time" required>
             <button type="submit">Book Classroom</button>
         </form>
         <p id="bookingMessage"></p>
     </div>
 
-    <div id="myBookingsPage" style="display: none;">
+    <div id="myBookingsPage" class="center" style="display: none;">
         <h2>My Bookings</h2>
-        <!-- My bookings content goes here -->
+        <ul id="myBookingsList" class="bookingsList"></ul>
     </div>
 
-    <div id="allBookedClassroomsPage" style="display: none;">
+    <div id="allBookedClassroomsPage" class="center" style="display: none;">
         <h2>All Booked Classrooms</h2>
-        <!-- All booked classrooms content goes here -->
+        <ul id="allBookedClassroomsList" class="bookingsList"></ul>
     </div>
 
     <script src="script.js"></script>
